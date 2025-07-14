@@ -7,21 +7,13 @@ import (
 )
 
 func TestGetTotalPrice_EmptyBasket(t *testing.T) {
-	// TODO(thegenem0):
-	// Implement constructors
+	// setup
+	checkout := NewCheckout()
 
-	// pricingRules := setupPricingRules()
-	// checkout := NewCheckout(pricingRules)
-
-	var checkout ICheckout
-
-	// TODO(thegenem0):
-	// Implement Iface methods on Checkout
+	// call
 	total, err := checkout.GetTotalPrice()
 
-	// Should not error
+	// assert
 	assert.Nil(t, err)
-
-	// Should be 0 for empty basket
 	assert.Equal(t, 0, total)
 }
