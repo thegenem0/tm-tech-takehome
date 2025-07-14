@@ -27,8 +27,24 @@ func (c *checkout) Scan(SKU string) (err error) {
 func (c *checkout) GetTotalPrice() (totalPrice int, err error) {
 	for sku, quantity := range c.scannedItems {
 		rule := c.rules[sku]
-		totalPrice += quantity * rule.UnitPrice
+
+		if rule.Offer != nil && quantity >= rule.Offer.Quantity {
+			totalPrice += c.calculateBundles(quantity, rule)
+		} else {
+			totalPrice += quantity * rule.UnitPrice
+		}
 	}
 
 	return totalPrice, nil
+}
+
+// Calculates pricing for bundles that are eligible for special offers
+func (c *checkout) calculateBundles(quantity int, pricingRule pricing.Rule) int {
+	numOffers := quantity / pricingRule.Offer.Quantity
+	totalPrice := numOffers * pricingRule.Offer.Price
+
+	remainingItems := quantity % pricingRule.Offer.Quantity
+	totalPrice += remainingItems * pricingRule.UnitPrice
+
+	return totalPrice
 }
