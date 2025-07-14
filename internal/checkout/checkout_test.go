@@ -9,10 +9,10 @@ import (
 
 func setupPricingRules() pricing.Rules {
 	return pricing.Rules{
-		"A": {UnitPrice: 50},
-		"B": {UnitPrice: 30},
-		"C": {UnitPrice: 20},
-		"D": {UnitPrice: 15},
+		"A": {UnitPrice: 50, Offer: nil},
+		"B": {UnitPrice: 30, Offer: nil},
+		"C": {UnitPrice: 20, Offer: nil},
+		"D": {UnitPrice: 15, Offer: nil},
 	}
 }
 
