@@ -61,14 +61,31 @@ func TestGetTotalPrice_WithSpecialOffer(t *testing.T) {
 	checkout := NewCheckout(pricingRules)
 
 	// act
-	checkout.Scan("A")
-	checkout.Scan("A")
-	checkout.Scan("A")
+	err := checkout.Scan("A")
+	assert.NoError(t, err)
+
+	err = checkout.Scan("A")
+	assert.NoError(t, err)
+
+	err = checkout.Scan("A")
+	assert.NoError(t, err)
 
 	total, err := checkout.GetTotalPrice()
 
 	// assert
-
 	assert.NoError(t, err)
 	assert.Equal(t, 130, total)
+}
+
+// Tests invalid SKU appropriately return error
+func TestScan_InvalidSKU(t *testing.T) {
+	// setup
+	pricingRules := setupPricingRules()
+	checkout := NewCheckout(pricingRules)
+
+	// act
+	err := checkout.Scan("X")
+
+	// assert
+	assert.Error(t, err)
 }
