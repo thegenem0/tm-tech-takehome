@@ -4,11 +4,21 @@ import (
 	"testing"
 
 	"github.com/stretchr/testify/assert"
+	"github.com/thegenem0/tm-tech-takehome/internal/pricing"
 )
+
+func setupPricingRules() pricing.Rules {
+	return pricing.Rules{
+		"A": {UnitPrice: 50},
+		"B": {UnitPrice: 30},
+		"C": {UnitPrice: 20},
+		"D": {UnitPrice: 15},
+	}
+}
 
 func TestGetTotalPrice_EmptyBasket(t *testing.T) {
 	// setup
-	checkout := NewCheckout()
+	checkout := NewCheckout(setupPricingRules())
 
 	// act
 	total, err := checkout.GetTotalPrice()
