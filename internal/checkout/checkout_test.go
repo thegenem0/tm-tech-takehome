@@ -121,10 +121,9 @@ func TestGetTotalPrice_IntOverflow(t *testing.T) {
 
 	// assert
 
-	total, err := checkout.GetTotalPrice()
-	assert.NoError(t, err)
-
-	assert.Equal(t, math.MaxInt, total)
+	_, err = checkout.GetTotalPrice()
+	assert.Error(t, err)
+	assert.ErrorContains(t, err, "overflow")
 }
 
 func TestGetTotalPrice_OfferWithZeroQuantity(t *testing.T) {
