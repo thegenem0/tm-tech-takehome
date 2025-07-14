@@ -1,6 +1,10 @@
 package checkout
 
-import "github.com/thegenem0/tm-tech-takehome/internal/pricing"
+import (
+	"fmt"
+
+	"github.com/thegenem0/tm-tech-takehome/internal/pricing"
+)
 
 type ICheckout interface {
 	Scan(SKU string) (err error)
@@ -20,7 +24,12 @@ func NewCheckout(pricingRules pricing.Rules) ICheckout {
 }
 
 func (c *checkout) Scan(SKU string) (err error) {
+	if _, ok := c.rules[SKU]; !ok {
+		return fmt.Errorf("item with SKU: %s does not exist in the store", SKU)
+	}
+
 	c.scannedItems[SKU]++
+
 	return nil
 }
 
